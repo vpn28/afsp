@@ -82,12 +82,12 @@ class AFSP:
                 if len(self.selected_features) >= min_features:
                     break  # Enough features selected, exit loop
                 else:
-                    print(f"⚠️ Too few features selected ({len(self.selected_features)}). Retrying with higher top_rho...")
+                    print(f"Too few features selected ({len(self.selected_features)}). Retrying with higher top_rho...")
                     top_rho = min(top_rho + 0.05, 1.0)  # Increase retention ratio
                     retry_count += 1
 
             if len(self.selected_features) < min_features:
-                print("⚠️ Warning: Could not retain at least 10 features after maximum retries.")
+                print("Warning: Could not retain at least 10 features after maximum retries.")
 
             # Store the list of features removed due to low MI
             self.removed_features.extend([col for col in X_reduced.columns if col not in self.selected_features])
@@ -124,10 +124,10 @@ class AFSP:
         """
         Provide information about the feature selection process.
         """
-        print("\n📊 Feature Selection Information:")
-        print(f"🔹 Initial number of features: {self.initial_features}")
-        print(f"🔹 Number of features after variance filtering: {self.features_after_variance}")
-        print(f"🔹 Number of features after correlation filtering: {self.features_after_correlation}")
-        print(f"🔹 Number of features retained after MI selection: {len(self.selected_features) if self.selected_features is not None else 0}")
-        print(f"🔹 Total number of removed features: {len(self.removed_features)}")
-        print(f"🛠 List of removed features: {self.removed_features}")
+        print("\nFeature Selection Information:")
+        print(f"Initial number of features: {self.initial_features}")
+        print(f"Number of features after variance filtering: {self.features_after_variance}")
+        print(f"Number of features after correlation filtering: {self.features_after_correlation}")
+        print(f"Number of features retained after MI selection: {len(self.selected_features) if self.selected_features is not None else 0}")
+        print(f"Total number of removed features: {len(self.removed_features)}")
+        print(f"List of removed features: {self.removed_features}")
