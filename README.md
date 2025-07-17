@@ -34,7 +34,7 @@ pip install numpy pandas scikit-learn
 ### Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/afsp.git
+git clone https://github.com/vpn28/afsp.git
 cd afsp
 ```
 
