@@ -24,11 +24,12 @@ Ensure you have Python 3.x installed. Required libraries:
 - `numpy`
 - `pandas`
 - `scikit-learn`
+- `imbalanced-learn` (for ADASYN)
 
 Install dependencies using pip:
 
 ```bash
-pip install numpy pandas scikit-learn
+pip install numpy pandas scikit-learn imbalanced-learn
 ```
 
 ### Clone the repository
@@ -48,7 +49,7 @@ pip install -e .
 
 ## 🚀 Getting Started
 
-### Example Usage
+### AFSP Example Usage
 
 ```python
 import pandas as pd
@@ -71,30 +72,59 @@ afsp.get_feature_info()
 
 ---
 
+## ⚖️ ADASYN (Adaptive Synthetic Sampling)
+
+`adasyn_sklearn.py` provides a practical and scalable implementation of the **ADASYN** algorithm using the [`imblearn`](https://imbalanced-learn.org/stable/) library. This component is used to mitigate class imbalance during training, particularly in multi-class classification tasks.
+
+### ADASYN Features
+
+- Supports multi-class imbalanced datasets
+- Automatically adjusts the number of neighbors when needed
+- Allows configurable balancing ratio and minimum sample thresholds
+- Simple and extensible interface
+
+### ADASYN Example Usage
+
+```python
+import pandas as pd
+from adasyn_sklearn import split_data, balance_data_adasyn
+
+# Load dataset
+df = pd.read_csv("dataset.csv")
+
+# Step 1: Split into train/test sets
+X_train, X_test, y_train, y_test = split_data(df, label_column='Label')
+
+# Step 2: Apply ADASYN to balance minority classes
+X_train_balanced, y_train_balanced = balance_data_adasyn(
+    X_train, y_train,
+    ratio=0.5,                    # desired ratio relative to majority class
+    min_samples_to_generate=100, # minimum required to apply ADASYN
+    n_neighbors=5                # default neighbors for ADASYN
+)
+```
+
+---
+
 ## 📘 API Reference
 
-### `AFSP(top_rho=0.8, tau_corr=0.85, tau_var=0.01, max_retries=3)`
+### AFSP Class
+
+```python
+AFSP(top_rho=0.8, tau_corr=0.85, tau_var=0.01, max_retries=3)
+```
 
 - `top_rho`: Retention ratio for MI-based feature selection.
 - `tau_corr`: Correlation threshold to remove redundant features.
 - `tau_var`: Variance threshold to remove uninformative features.
 - `max_retries`: Number of retries if too few features are retained.
 
----
+#### Methods
 
-### Methods
-
-#### `fit(X, y)`
-Fits the AFSP model to input `X` and target `y`.
-
-#### `transform(X)`
-Transforms the dataset using previously selected features.
-
-#### `fit_transform(X, y)`
-Applies fit and transform in a single step.
-
-#### `get_feature_info()`
-Prints a summary of selected and removed features, and number of features at each step.
+- `fit(X, y)`: Fit the AFSP model to input features and labels.
+- `transform(X)`: Transform data using the selected features.
+- `fit_transform(X, y)`: Apply fit and transform in one step.
+- `get_feature_info()`: Print number of features retained at each step.
 
 ---
 
@@ -110,13 +140,13 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 📧 [phamngocvan.kma@gmail.com](mailto:phamngocvan.kma@gmail.com)  
 🎓 MSc in Information Security  
 🏛 Vietnam Academy of Cryptography Techniques  
-🏦 Cybersecurity Analyst at MBBank  
+🏦 Cybersecurity Analyst at MBBank
 
 ---
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome!  
+Contributions, issues, and feature requests are welcome.  
 Feel free to fork the repository and submit a pull request.
 
 ---
